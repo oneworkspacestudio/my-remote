@@ -1,0 +1,148 @@
+Page Remote
+  Row variant=header
+    Row variant=brand
+      Icon name=MonitorSmartphone size=30
+      Heading level=1 "My Remote"
+    Spacer
+    Link href=$workspace variant=apps "Apps"
+    Button action=account variant=avatar aria-label="Account" $initial
+  Row variant=layout
+    Stack variant=navigation
+      Button action=access variant=$accessVariant
+        Icon name=Monitor
+        Text "Remote Access"
+      Button action=support variant=$supportVariant
+        Icon name=Headphones
+        Text "Remote Support"
+      Spacer
+      Link href="https://github.com/oneworkspacestudio/my-remote" external=true "About My Remote"
+    Stack variant=main
+      Alert tone=error $error
+      Alert $notice
+      If condition=$access
+        Stack
+          Row variant=page-heading
+            Heading level=2 "Remote Access"
+            Spacer
+            Button action=refresh variant=icon aria-label="Refresh computers"
+              Icon name=RefreshCw
+          Card variant=hero
+            Stack
+              Heading level=2 "Your computers, wherever you are"
+              Text "Securely access your desktop from your phone, tablet or another computer."
+              If condition=$signedIn
+                Button action=setup variant=primary "Set up remote access"
+              Else
+                Link href=$login variant=primary $loginLabel
+            Section id=hero-art
+          Row variant=section-heading
+            Heading level=3 "Remote devices"
+            Badge $deviceCount
+          If condition=$loading
+            Card
+              Spinner
+              Text "Connecting to your computers…"
+          If condition=$empty
+            Card variant=empty
+              Icon name=Laptop size=42
+              Heading level=3 "Your computers will appear here"
+              Text "Set up a host on a computer you own, then connect whenever it is online."
+          Grid variant=devices
+            For each=$devices
+              Card variant=device
+                Row
+                  Icon name=Monitor size=36
+                  Stack
+                    Heading level=3 $item.name
+                    Text variant=muted $item.platform
+                  Spacer
+                  Button action=edit item=$item.id variant=icon aria-label="Computer settings"
+                    Icon name=Pencil size=19
+                Row variant=device-footer
+                  Badge tone=$item.tone $item.status
+                  Spacer
+                  Button action=connect item=$item.id variant=tonal disabled=$item.unavailable "Connect"
+      Else
+        Stack
+          Heading level=2 "Remote Support"
+          Text variant=lead "Share your screen with someone you trust, or connect to help them."
+          Grid variant=support
+            Card variant=support
+              Icon name=ScreenShare size=42
+              Heading level=3 "Get support"
+              Text "Generate a one-time code. You decide who can connect, and you can stop sharing at any time."
+              If condition=$signedIn
+                Stack
+                  Field label="Computer to share"
+                    Select name=supportNode options=$deviceOptions
+                  Button action=generate variant=primary disabled=$empty "Generate code"
+              Else
+                Link href=$login variant=primary "Sign in to share"
+              If condition=$code
+                Stack variant=code
+                  Text variant=code $code
+                  Text "Expires in 5 minutes. Share only with someone you trust."
+                  Button action=copycode variant=text "Copy code"
+            Card variant=support
+              Icon name=Headphones size=42
+              Heading level=3 "Give support"
+              Text "Enter the code from the person who needs help. They’ll approve your request before you connect."
+              Field label="Your name"
+                Input name=helperName placeholder="Name shown to the host" autoComplete=name
+              Field label="Access code"
+                Input name=accessCode placeholder="000 000 000" inputMode=numeric
+              Button action=redeem variant=primary "Connect"
+              Text variant=muted $guestStatus
+          For each=$requests
+            Card
+              Row
+                Icon name=UserRound
+                Stack
+                  Heading level=3 $item.name
+                  Text $item.description
+                Spacer
+                Button action=approve item=$item.id variant=primary disabled=$item.approved "Share"
+                Button action=revoke item=$item.id variant=danger "Stop sharing"
+  If condition=$modal
+    Card variant=dialog
+      Row
+        Heading level=2 $modalTitle
+        Spacer
+        Button action=close variant=icon aria-label="Close dialog"
+          Icon name=X
+      If condition=$setup
+        Stack
+          Icon name=Download size=42
+          Text "The Windows host package is not available in this development build. Desktop control is still being validated."
+          Link href="https://github.com/oneworkspacestudio/my-remote" external=true "View development status"
+          Text variant=muted "Powered by MeshCentral"
+          Text "Once your computer appears, open its settings to give it a name and set an access PIN."
+      If condition=$edit
+        Stack
+          Field label="Computer name"
+            Input name=deviceName
+          Field label="New access PIN"
+            Input name=newPin type=password placeholder="6–16 digits; leave blank to keep current PIN" inputMode=numeric
+          Checkbox name=deviceDisabled label="Disable remote connections"
+          Button action=saveDevice variant=primary "Save"
+      If condition=$pin
+        Stack
+          Icon name=LockKeyhole size=40
+          Text "Enter this computer’s PIN to start an encrypted session."
+          Field label="Access PIN"
+            Input name=pin type=password inputMode=numeric autoFocus=true
+          Button action=start variant=primary "Connect"
+      If condition=$account
+        Stack
+          Text $accountName
+          Text variant=muted "Remote access is available to the Workspace owner. Support guests receive temporary access to one computer."
+          Link href=$logout "Sign out"
+      If condition=$localLogin
+        Stack
+          Text "Sign in to this My Remote server."
+          Field label="Email"
+            Input name=email type=email autoComplete=username
+          Field label="Password"
+            Input name=password type=password autoComplete=current-password
+          Button action=localLogin variant=primary "Sign in"
+      Alert tone=error $modalError

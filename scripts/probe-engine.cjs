@@ -1,0 +1,6 @@
+const {spawn}=require('node:child_process'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const root=path.resolve(__dirname,'..'),dir=path.resolve(root,'../fixture-engine');fs.mkdirSync(dir,{recursive:true});
+const secret=crypto.randomBytes(48).toString('hex'),log=fs.openSync(path.join(dir,'engine-probe.log'),'a');
+const child=spawn(process.execPath,[path.join(root,'engine/server.cjs')],{cwd:root,windowsHide:true,env:{...process.env,MY_REMOTE_DATA:dir,MY_REMOTE_SECRET:secret,MY_REMOTE_ORIGIN:'http://localhost:29734/remote',MY_REMOTE_ENGINE_PORT:'29836',MY_REMOTE_BROKER_PORT:'29835'},stdio:['ignore',log,log]});
+fs.writeFileSync(path.join(dir,'pid.json'),JSON.stringify({pid:child.pid}));
+(async()=>{try{for(let i=0;i<120;i++){await new Promise(r=>setTimeout(r,1000));if(child.exitCode!==null)throw Error('Engine exited '+child.exitCode);try{const r=await fetch('http://127.0.0.1:29835/remote/api/remote/devices',{headers:{'x-remote-broker':secret,'x-remote-owner':'a'.repeat(64),'x-remote-session':'test'}});const b=await r.json();if(r.ok){console.log(JSON.stringify(b));return;}}catch{}}throw Error('Engine readiness timeout');}finally{child.kill();}})().catch(e=>{console.error(e.message);process.exitCode=1});

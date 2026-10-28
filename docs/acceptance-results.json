@@ -1,0 +1,28 @@
+{
+  "passed": [
+    "anonymous and forged identity denied",
+    "native host and pinned engine serve synthetic devices",
+    "unenrolled PIN cannot open a desktop lease",
+    "mutations require CSRF",
+    "changed account rejected",
+    "PIN stored and enforced",
+    "control socket authenticates owner and rejects cross-origin",
+    "non-owner cannot access desktop management",
+    "support requires approval and code is single-use",
+    "approved support grant revokes",
+    "standalone browser sign-in works",
+    "native UI edits persist through backend",
+    "desktop and phone UI render without errors or horizontal overflow"
+  ],
+  "agentDownloadPassed": false,
+  "releaseAccepted": false,
+  "screenshots": [
+    "screenshots/remote-access-desktop.png",
+    "screenshots/remote-support-phone.png"
+  ],
+  "limits": [
+    "Synthetic devices; no real desktop pixels or input tested",
+    "No production identity/data used"
+  ],
+  "checkedOn": "2026-10-28"
+}

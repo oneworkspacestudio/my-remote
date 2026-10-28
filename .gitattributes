@@ -1,0 +1,4 @@
+* text=auto
+# Preserve the exact licensed upstream copies, including their original whitespace.
+web/public/engine/* -text -whitespace
+docs/upstream/* -text -whitespace

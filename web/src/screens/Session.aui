@@ -1,0 +1,37 @@
+Page Session
+  Row variant=session-header
+    Icon name=Monitor size=21
+    Heading level=1 $name
+    Badge tone=$tone $status
+    Spacer
+    Button action=options variant=text "Session options"
+    Button action=disconnect variant=disconnect "Disconnect"
+  Row variant=session-layout
+    Section id=desktop-canvas
+    If condition=$options
+      Stack variant=session-options
+        Heading level=2 "Session options"
+        Button action=fullscreen variant=tonal
+          Icon name=Maximize
+          Text "Full screen"
+        Checkbox name=fit label="Scale to fit"
+        Checkbox name=viewOnly label="View only"
+        Field label="Display"
+          Select name=display options=$displays
+        Field label="Picture quality"
+          Select name=quality options=$qualities
+        Divider
+        Heading level=3 "Keyboard"
+        Button action=cad variant=tonal "Send Ctrl + Alt + Delete"
+        Button action=escape variant=tonal "Send Escape"
+        Button action=winkey variant=tonal "Send Windows key"
+        Divider
+        Heading level=3 "Clipboard"
+        Text variant=muted "Clipboard is shared only when you choose an action."
+        Field label="Text to send"
+          Input name=clipboard multiline=true
+        Button action=sendClipboard variant=tonal disabled=$guest "Send to computer"
+        Button action=getClipboard variant=tonal disabled=$guest "Get from computer"
+        Divider
+        Text variant=muted $notice
+        Text variant=muted "Powered by MeshCentral"

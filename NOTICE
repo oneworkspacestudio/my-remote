@@ -1,0 +1,9 @@
+My Remote
+Copyright 2026 One Workspace contributors.
+
+This product includes source from MeshCentral, licensed under Apache-2.0.
+See docs/upstream/MeshCentral-LICENSE.txt and original source headers.
+The MeshCentral integration modifications are described in
+scripts/prepare-engine.cjs and docs/engine-research.md.
+
+My Remote is an independent project and is not affiliated with Google.
