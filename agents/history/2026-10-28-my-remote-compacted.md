@@ -126,3 +126,12 @@ installation; both the app and supervised native-host processes stopped, then
 started successfully. The launcher now probes loopback with proxies explicitly
 disabled after PowerShell's default web-request path falsely reported a failure.
 No system proxy configuration was changed. Reboot itself was not tested.
+
+Release published and verified:
+https://github.com/oneworkspacestudio/my-remote/releases/tag/v0.1.0-preview.2
+Targets source commit dec7f16e301007c67e3048fd53a0616860e52b71. All six public
+asset sizes and GitHub SHA256 digests matched local files; an unauthenticated
+checksum download also matched. Actions remain disabled. The installed first-PC
+payload matches all 121 manifest entries. Its health endpoint is 200, version is
+preview.2, owner setup is still required, and anonymous device access is 401.
+Only the local preview is delivered; do not claim internet access or full parity.
