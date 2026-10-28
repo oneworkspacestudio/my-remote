@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-var version = "0.1.0-preview.1"
+var version = "0.1.0-preview.2"
 
 func main() {
 	if e := apphost.Main(apphost.Config{ID: "remote", Name: "My Remote", Version: version, Listen: "127.0.0.1:9034", Realtime: true}, webui.Files(), app.New); e != nil {

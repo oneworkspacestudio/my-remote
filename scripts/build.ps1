@@ -5,8 +5,6 @@ Push-Location $taskSourceRoot
 try {
     npm ci --ignore-scripts --no-audit --no-fund
     if ($LASTEXITCODE -ne 0) { throw 'Root dependency install failed' }
-    node scripts/prepare-engine.cjs
-    if ($LASTEXITCODE -ne 0) { throw 'Engine preparation failed' }
     npm --prefix web ci --ignore-scripts --no-audit --no-fund
     if ($LASTEXITCODE -ne 0) { throw 'Web dependency install failed' }
     npm --prefix web run build

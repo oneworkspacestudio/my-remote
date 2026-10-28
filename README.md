@@ -1,85 +1,72 @@
 # My Remote
 
-A browser remote desktop application for One Workspace, with Remote Access and
-Remote Support screens inspired by Chrome Remote Desktop. It uses MeshCentral's
-Apache-2.0 engine and desktop protocol. This is an independent project, not a
-Google product.
+My Remote provides a Chrome Remote Desktop inspired interface for viewing and
+controlling a Windows PC through a browser. It is an independent One Workspace
+project and is not affiliated with Google.
 
-**Development checkpoint — not a working remote desktop release yet.** The UI,
-authenticated broker and support approval flows are implemented and tested with
-synthetic devices. Real desktop pixels, input and unattended access have not
-passed acceptance. No installation on either target PC has been completed.
+**Current release: local preview for a signed-in Windows user.** It includes a
+signed TightVNC host, noVNC browser viewer, account sign-in, access PINs and
+approved temporary support sessions. A real Windows screen stream and access
+revocation have been tested. Internet access, a pre-login Windows service,
+audio and file transfer are not included in this preview.
 
-## What is implemented
+## Install on Windows
 
-- Responsive Remote Access and Remote Support screens, device names/status,
-  settings, PIN entry, owner sign-in and temporary support requests.
-- Workspace apphost authentication, account binding and CSRF protection.
-- Salted PIN verification, owner-scoped computers, expiring access leases,
-  one-use support codes and explicit owner approval/revocation.
-- A private loopback MeshCentral broker; engine authentication tokens stay on
-  the server. Browser relays are restricted to desktop protocol and authorized
-  devices. Terminal and file protocols are not exposed.
-- Desktop canvas and controls for display selection, fit, quality, fullscreen,
-  view-only input and explicit text clipboard. These controls need a real host
-  acceptance test before they can be described as working end to end.
+Download the Windows x64 package from [Releases](https://github.com/oneworkspacestudio/my-remote/releases),
+extract it, and run `install.ps1` with PowerShell. It installs for the current
+Windows account without administrator privileges. The installer preserves
+existing TightVNC installations by refusing to overwrite their configuration.
 
-## Release blockers
+Open **My Remote** from the Start menu. On first use, create your owner account,
+then choose **Set up remote access** and set your computer name and PIN.
+**Stop My Remote** stops both the app and its supervised Windows host. The app
+starts quietly at Windows sign-in. See [installation details](docs/INSTALLING.md).
 
-The pinned native Windows MeshAgent was blocked by Windows security during
-isolated testing. No protection was disabled and no exception was added.
-Automatic agent downloads are disabled in this checkpoint; the host-download
-endpoint deliberately returns 503, and setup explains that the host is not yet
-available.
+The default address is `http://localhost:9034/remote/`. This is deliberately a
+local-only preview; it is not yet a link you can use from another computer.
+An authenticated HTTPS gateway and its deployment tests remain outstanding.
 
-The separate MeshCentral Assistant C# project builds successfully, but its
-attended-session design is not an unattended Windows service replacement. It
-has not been included or deployed. See [engine research](docs/engine-research.md)
-and [acceptance status](docs/acceptance.md).
+## What works in this preview
+
+- Google-style Remote Access and Remote Support screens on desktop and phone.
+- Account and PIN protection for desktop connection leases.
+- One-use support codes, owner approval, expiry and revocation.
+- A real Windows screen stream through the noVNC canvas.
+- Fullscreen, fit-to-window, quality and view-only controls.
+- Upstream keyboard, mouse, touch and text clipboard support, with explicit UI
+  actions. Physical input and clipboard were not exercised against the owner's
+  personal desktop during automated validation.
+
+The native host requires a random private password and listens only on loopback.
+The authenticated bridge performs native authentication server-side, so the
+native password is never sent to a browser. File-transfer and terminal protocols
+are not exposed. This is not full Google Remote Desktop feature parity.
 
 ## Development
-
-Windows is the current target. The build was checked with Node 26.8.2, npm,
-Go 1.27.3 and Windows Chrome for the isolated UI tests. Dependencies are pinned
-in both npm lockfiles and `go.mod` / `go.sum`.
 
 ```powershell
 ./scripts/build.ps1
 npm test
-node scripts/native-acceptance.cjs
+node scripts/local-acceptance.cjs
 ```
 
-The build installs locked dependencies without lifecycle scripts, applies two
-documented MeshCentral integration hooks, generates React from `.aui` screens,
-and builds `dist/MyRemote.exe`. It is a development executable; its runtime
-still needs the Node executable, `engine/` and installed root dependencies.
-For local development only, set `MY_REMOTE_RUNTIME` to this source directory
-and provide a compatible `node.exe` there. Do not publish that local runtime as
-a release package without provenance, licences and acceptance checks.
+Native acceptance requires the signed host in the ignored `host/` directory and
+Node in the ignored `node.exe` path. It uses fresh synthetic app accounts and a
+short-lived loopback host configuration. It verifies a real framebuffer without
+saving the desktop image or sending input to personal apps. See
+[acceptance](docs/acceptance.md), [engine research](docs/engine-research.md) and
+[packaging](docs/INSTALLING.md).
 
-Use fresh private test data and a loopback listener. The native acceptance test
-creates synthetic accounts and devices in a fresh sibling directory. It exits
-nonzero while the host is unavailable, and always records
-`releaseAccepted: false` until real desktop validation is implemented.
+UI trees live in `web/src/screens/*.aui`; generated React lives in
+`web/src/generated`. The Go app embeds the UI and supervises its Node bridge and
+Windows host. Dependencies are pinned in npm lockfiles and `go.mod`/`go.sum`.
 
-## Structure
+## Licences and previews
 
-| Path | Purpose |
-| --- | --- |
-| `cmd/my-remote`, `internal/app` | Go apphost, authenticated proxy and managed engine process |
-| `engine` | Private MeshCentral broker and support/PIN rules |
-| `web/src/screens` | Authoritative AUI screen definitions |
-| `web/src/generated` | Generated React screen trees |
-| `web/src/main.tsx` | State and engine interaction |
-| `scripts` | Reproducible engine preparation, build and isolated checks |
-| `agents/history` | Compact implementation handoff |
+The application is Apache-2.0. Unmodified TightVNC runs as a separate GPL-2.0
+executable over the RFB protocol; its complete corresponding source is supplied
+with the release. noVNC is MPL-2.0. Runtime and dependency notices are included.
+See [third-party notices](docs/third-party-notices.md).
 
-## Licence
-
-UI previews from synthetic test data:
-[desktop](docs/screenshots/remote-access-desktop.png) ·
-[phone](docs/screenshots/remote-support-phone.png).
-
-Apache-2.0. See [LICENSE](LICENSE), [NOTICE](NOTICE), and
-[third-party notices](docs/third-party-notices.md). Upstream desktop protocol
-files retain their original headers. No Google logos or source are included.
+[Synthetic desktop UI](docs/screenshots/remote-access-desktop.png) ·
+[Synthetic phone UI](docs/screenshots/remote-support-phone.png)

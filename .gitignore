@@ -8,3 +8,6 @@ internal/webui/dist/
 runtime/
 meshcentral-data/
 meshcentral-files/
+host/
+*.zip
+*.msi

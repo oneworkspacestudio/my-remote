@@ -27,6 +27,7 @@ export function Remote({ data, onAction }: { data: any; onAction: (name: string)
           <Link href="https://github.com/oneworkspacestudio/my-remote" external={true}>About My Remote</Link>
         </Stack>
         <Stack variant="main">
+          <Alert>{data.localNotice}</Alert>
           <Alert tone="error">{data.error}</Alert>
           <Alert>{data.notice}</Alert>
           {data.access ? (
@@ -149,10 +150,11 @@ export function Remote({ data, onAction }: { data: any; onAction: (name: string)
           {data.setup && (
             <Stack>
               <Icon name="Download" size={42} />
-              <Text>The Windows host package is not available in this development build. Desktop control is still being validated.</Text>
-              <Link href="https://github.com/oneworkspacestudio/my-remote" external={true}>View development status</Link>
-              <Text variant="muted">Powered by MeshCentral</Text>
-              <Text>Once your computer appears, open its settings to give it a name and set an access PIN.</Text>
+              <Text>Enable access to this Windows PC while you are signed in. Choose a name and a PIN to connect.</Text>
+              <Field label="Computer name"><Input name="setupName" placeholder="This PC" /></Field>
+              <Field label="Access PIN"><Input name="setupPin" type="password" inputMode="numeric" placeholder="6–16 digits" /></Field>
+              <Button onClick={() => onAction("enroll")} variant="primary">Enable remote access</Button>
+              <Text variant="muted">Powered by TightVNC and noVNC. Access before Windows sign-in requires a service installation.</Text>
             </Stack>
           )}
           {data.edit && (
@@ -180,10 +182,10 @@ export function Remote({ data, onAction }: { data: any; onAction: (name: string)
           )}
           {data.localLogin && (
             <Stack>
-              <Text>Sign in to this My Remote server.</Text>
+              <Text>{data.loginHelp}</Text>
               <Field label="Email"><Input name="email" type="email" autoComplete="username" /></Field>
               <Field label="Password"><Input name="password" type="password" autoComplete="current-password" /></Field>
-              <Button onClick={() => onAction("localLogin")} variant="primary">Sign in</Button>
+              <Button onClick={() => onAction("localLogin")} variant="primary">{data.loginButton}</Button>
             </Stack>
           )}
           <Alert tone="error">{data.modalError}</Alert>

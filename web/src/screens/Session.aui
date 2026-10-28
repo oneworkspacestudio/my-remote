@@ -16,13 +16,12 @@ Page Session
           Text "Full screen"
         Checkbox name=fit label="Scale to fit"
         Checkbox name=viewOnly label="View only"
-        Field label="Display"
-          Select name=display options=$displays
+        Text variant=muted "Showing all connected displays"
         Field label="Picture quality"
           Select name=quality options=$qualities
         Divider
         Heading level=3 "Keyboard"
-        Button action=cad variant=tonal "Send Ctrl + Alt + Delete"
+        Text variant=muted "Ctrl + Alt + Delete requires a Windows service host."
         Button action=escape variant=tonal "Send Escape"
         Button action=winkey variant=tonal "Send Windows key"
         Divider
@@ -30,8 +29,8 @@ Page Session
         Text variant=muted "Clipboard is shared only when you choose an action."
         Field label="Text to send"
           Input name=clipboard multiline=true
-        Button action=sendClipboard variant=tonal disabled=$guest "Send to computer"
+        Button action=sendClipboard variant=tonal "Send to computer"
         Button action=getClipboard variant=tonal disabled=$guest "Get from computer"
         Divider
         Text variant=muted $notice
-        Text variant=muted "Powered by MeshCentral"
+        Text variant=muted "Powered by TightVNC and noVNC"

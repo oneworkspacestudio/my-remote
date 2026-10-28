@@ -1,28 +1,27 @@
 {
+  "checkedOn": "2026-10-28",
   "passed": [
-    "anonymous and forged identity denied",
-    "native host and pinned engine serve synthetic devices",
-    "unenrolled PIN cannot open a desktop lease",
-    "mutations require CSRF",
-    "changed account rejected",
-    "PIN stored and enforced",
-    "control socket authenticates owner and rejects cross-origin",
-    "non-owner cannot access desktop management",
-    "support requires approval and code is single-use",
-    "approved support grant revokes",
-    "standalone browser sign-in works",
-    "native UI edits persist through backend",
-    "desktop and phone UI render without errors or horizontal overflow"
+    "anonymous and forged identities denied",
+    "first-run owner setup requires local token and works in UI",
+    "CSRF required",
+    "signed Windows host runs and device enrolment persists",
+    "PIN lease and socket origin enforced",
+    "real Windows framebuffer reaches noVNC canvas",
+    "live stream survives connection timeout window",
+    "disconnect terminates live stream and revokes lease",
+    "temporary support requires approval and revokes",
+    "member cannot manage remote access",
+    "disable closes authorized desktop access",
+    "desktop and phone UI have no runtime errors or overflow"
   ],
-  "agentDownloadPassed": false,
-  "releaseAccepted": false,
-  "screenshots": [
-    "screenshots/remote-access-desktop.png",
-    "screenshots/remote-support-phone.png"
-  ],
+  "realFramebuffer": {
+    "width": 1920,
+    "height": 1080
+  },
+  "releaseAccepted": true,
   "limits": [
-    "Synthetic devices; no real desktop pixels or input tested",
-    "No production identity/data used"
-  ],
-  "checkedOn": "2026-10-28"
+    "Per-user host; access before Windows sign-in not tested or supported",
+    "Physical input and clipboard not exercised against personal desktop",
+    "Remote internet access requires HTTPS gateway configuration"
+  ]
 }

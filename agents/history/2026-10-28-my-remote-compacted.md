@@ -82,3 +82,47 @@ Source checkpoint `6be1b0719e15f6476451e708d315588bfade0e39` was pushed and
 verified against GitHub `main`. Four unit tests and thirteen synthetic native/UI
 checks passed in the final run; host availability failed as expected (503).
 The sanitized result is `docs/acceptance-results.json`; `releaseAccepted` is false.
+
+## Continuation: signed Windows host installed locally
+
+User explicitly requested continuing on this PC; the second-PC installation
+remains pending. The current implementation replaces MeshCentral with the
+separate, unmodified publisher-signed TightVNC 2.8.90 host and noVNC 1.7.0.
+No protection was disabled, no exception added and no MeshAgent variant rebuilt.
+Earlier blocker notes above describe the superseded prototype.
+
+Current architecture: Go apphost supervises a Node broker and per-user TightVNC
+tray host in a Windows job. All listeners are loopback. The broker authenticates
+to native RFB without exposing its password, then gates browser streams by owner,
+PIN lease or approved expiring support grant. A bounded parser rejects unsupported
+client protocols. File transfer and native HTTP serving are disabled.
+
+Six unit tests and twelve isolated native/UI checks passed, including real Windows
+framebuffer delivery, stream survival beyond 30 seconds, disconnect/revocation,
+first-run setup-token enforcement, PIN/origin/CSRF/role checks and responsive UI.
+No real desktop screenshots or clipboard contents were saved; no physical input
+was sent to personal apps. Keyboard protocol bytes have a synthetic-peer test.
+
+Version 0.1.0-preview.2 is packaged as an independent **local-only per-user
+preview**, with official signed Node 26.8.2, complete notices, checksums, and
+corresponding TightVNC/noVNC source assets. Packaging provenance is in docs.
+It does not change the managed Workspace suite or its update channel.
+
+Program root is the current user's LocalAppData/Programs/OneWorkspace/MyRemote/
+version folder; private data is LocalAppData/OneWorkspace/MyRemote. Start menu
+shortcuts open or stop the app, and a startup shortcut runs it at Windows sign-in.
+The user creates their own account and PIN using the shortcut's first-run link.
+There are no default credentials. Never publish private launch.log/setup tokens.
+
+Outstanding: internet/LAN gateway deployment and verification, managed-suite
+integration, before-sign-in service, secure desktop, audio, files and individual
+monitor selection. This is not full Google Remote Desktop feature parity.
+The second PC must remain pending unless the user resumes that installation.
+
+Installed-PC verification: preview.2 is running on loopback ports 9034, 9135 and
+9136, and reports needsSetup=true (no owner credentials were invented). Start-menu
+and sign-in startup shortcuts exist. Stop then relaunch was tested on the actual
+installation; both the app and supervised native-host processes stopped, then
+started successfully. The launcher now probes loopback with proxies explicitly
+disabled after PowerShell's default web-request path falsely reported a failure.
+No system proxy configuration was changed. Reboot itself was not tested.

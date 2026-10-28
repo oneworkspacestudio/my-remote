@@ -17,6 +17,7 @@ Page Remote
       Spacer
       Link href="https://github.com/oneworkspacestudio/my-remote" external=true "About My Remote"
     Stack variant=main
+      Alert $localNotice
       Alert tone=error $error
       Alert $notice
       If condition=$access
@@ -113,10 +114,13 @@ Page Remote
       If condition=$setup
         Stack
           Icon name=Download size=42
-          Text "The Windows host package is not available in this development build. Desktop control is still being validated."
-          Link href="https://github.com/oneworkspacestudio/my-remote" external=true "View development status"
-          Text variant=muted "Powered by MeshCentral"
-          Text "Once your computer appears, open its settings to give it a name and set an access PIN."
+          Text "Enable access to this Windows PC while you are signed in. Choose a name and a PIN to connect."
+          Field label="Computer name"
+            Input name=setupName placeholder="This PC"
+          Field label="Access PIN"
+            Input name=setupPin type=password inputMode=numeric placeholder="6–16 digits"
+          Button action=enroll variant=primary "Enable remote access"
+          Text variant=muted "Powered by TightVNC and noVNC. Access before Windows sign-in requires a service installation."
       If condition=$edit
         Stack
           Field label="Computer name"
@@ -139,10 +143,10 @@ Page Remote
           Link href=$logout "Sign out"
       If condition=$localLogin
         Stack
-          Text "Sign in to this My Remote server."
+          Text $loginHelp
           Field label="Email"
             Input name=email type=email autoComplete=username
           Field label="Password"
             Input name=password type=password autoComplete=current-password
-          Button action=localLogin variant=primary "Sign in"
+          Button action=localLogin variant=primary $loginButton
       Alert tone=error $modalError

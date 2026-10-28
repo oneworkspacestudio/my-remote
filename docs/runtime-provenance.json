@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "checkedOn": "2026-10-28",
+  "components": [
+    {
+      "name": "TightVNC",
+      "version": "2.8.90",
+      "license": "GPL-2.0",
+      "installer": "https://www.tightvnc.com/download/2.8.90/tightvnc-2.8.90-gpl-setup-64bit.msi",
+      "installerSha256": "9693cb4cdc2e7e482e8e3f5890415b57ef87de3369fa5c337db516218a1170ce",
+      "source": "https://www.tightvnc.com/download/2.8.90/tightvnc-2.8.90-src-gpl.zip",
+      "sourceSha256": "f3f76393a5865e1f1919c78c3eb43b9c937cf738927c2bfc920ecbd3913b061c",
+      "hostSha256": "68be8f45403afbd5bc2312b39e40689fac9a0f00986f1e5773ba8845b2b050e8",
+      "publisher": "OOO GlavSoft",
+      "signatureVerified": true,
+      "modified": false
+    },
+    {
+      "name": "Node.js",
+      "version": "26.8.2",
+      "binary": "https://nodejs.org/dist/v26.8.2/win-x64/node.exe",
+      "sha256": "23062343ad39fc79f12ae39cfb324e93a20ced5f1d342e7b850c148c022ddbca",
+      "checksums": "https://nodejs.org/dist/v26.8.2/SHASUMS256.txt",
+      "license": "https://raw.githubusercontent.com/nodejs/node/v26.8.2/LICENSE",
+      "publisher": "OpenJS Foundation",
+      "signatureVerified": true
+    },
+    {
+      "name": "noVNC",
+      "version": "1.7.0",
+      "license": "MPL-2.0 and component licences",
+      "source": "https://registry.npmjs.org/@novnc/novnc/-/novnc-1.7.0.tgz",
+      "integrity": "sha512-ucEJOx4T2avIRCleodk7YobZj5O2Ga2AeLfQ69A/yjG9HHba2+PDgwSkN3FttrmG+70ZGx21sElNFouK13RzyA==",
+      "modified": false
+    }
+  ]
+}

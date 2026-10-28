@@ -1,9 +1,9 @@
 My Remote
 Copyright 2026 One Workspace contributors.
 
-This product includes source from MeshCentral, licensed under Apache-2.0.
-See docs/upstream/MeshCentral-LICENSE.txt and original source headers.
-The MeshCentral integration modifications are described in
-scripts/prepare-engine.cjs and docs/engine-research.md.
+The application is licensed under Apache-2.0. Separate bundled components retain
+their own licences: TightVNC (GPL-2.0), noVNC (primarily MPL-2.0), Node.js and other
+dependencies. See docs/third-party-notices.md and the release's licences folder.
+TightVNC is distributed unmodified as a separate program using the RFB protocol.
 
 My Remote is an independent project and is not affiliated with Google.

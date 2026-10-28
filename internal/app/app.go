@@ -33,7 +33,7 @@ func New(h *apphost.Host) (apphost.Application, error) {
 	if p := os.Getenv("MY_REMOTE_RUNTIME"); p != "" {
 		runtime = p
 	}
-	for _, p := range []string{"node.exe", "engine/server.cjs", "node_modules/meshcentral/meshcentral.js"} {
+	for _, p := range []string{"node.exe", "engine/local-server.cjs", "node_modules/ws/index.js", "host/tvnserver.exe"} {
 		if _, e = os.Stat(filepath.Join(runtime, p)); e != nil {
 			return nil, fmt.Errorf("My Remote runtime is incomplete: %s", p)
 		}
@@ -99,15 +99,7 @@ func New(h *apphost.Host) (apphost.Application, error) {
 		h.Mux.HandleFunc(method+"/api/remote/", h.Owner(proxy.ServeHTTP))
 		h.Mux.HandleFunc(method+"/support-api/", public)
 	}
-	h.Mux.HandleFunc("GET /control.ashx", socket)
-	h.Mux.HandleFunc("GET /meshrelay.ashx", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Query().Has("browser") {
-			socket(w, r)
-		} else {
-			proxy.ServeHTTP(w, r)
-		}
-	})
-	h.Mux.Handle("GET /agent.ashx", proxy)
+	h.Mux.HandleFunc("GET /desktop", socket)
 	return a, nil
 }
 func (a *App) Run(ctx context.Context) error {
@@ -117,5 +109,5 @@ func (a *App) Run(ctx context.Context) error {
 		return e
 	}
 	defer log.Close()
-	return apphost.Service(ctx, filepath.Join(a.runtime, "node.exe"), a.h.Config.Data, []string{filepath.Join(a.runtime, "engine/server.cjs")}, env, io.Writer(log))
+	return apphost.Service(ctx, filepath.Join(a.runtime, "node.exe"), a.h.Config.Data, []string{filepath.Join(a.runtime, "engine/local-server.cjs")}, env, io.Writer(log))
 }

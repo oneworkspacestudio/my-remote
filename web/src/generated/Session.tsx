@@ -23,22 +23,22 @@ export function Session({ data, onAction }: { data: any; onAction: (name: string
             </Button>
             <Checkbox name="fit" label="Scale to fit" />
             <Checkbox name="viewOnly" label="View only" />
-            <Field label="Display"><Select name="display" options={data.displays} /></Field>
+            <Text variant="muted">Showing all connected displays</Text>
             <Field label="Picture quality"><Select name="quality" options={data.qualities} /></Field>
             <Divider />
             <Heading level={3}>Keyboard</Heading>
-            <Button onClick={() => onAction("cad")} variant="tonal">Send Ctrl + Alt + Delete</Button>
+            <Text variant="muted">Ctrl + Alt + Delete requires a Windows service host.</Text>
             <Button onClick={() => onAction("escape")} variant="tonal">Send Escape</Button>
             <Button onClick={() => onAction("winkey")} variant="tonal">Send Windows key</Button>
             <Divider />
             <Heading level={3}>Clipboard</Heading>
             <Text variant="muted">Clipboard is shared only when you choose an action.</Text>
             <Field label="Text to send"><Input name="clipboard" multiline={true} /></Field>
-            <Button onClick={() => onAction("sendClipboard")} variant="tonal" disabled={data.guest}>Send to computer</Button>
+            <Button onClick={() => onAction("sendClipboard")} variant="tonal">Send to computer</Button>
             <Button onClick={() => onAction("getClipboard")} variant="tonal" disabled={data.guest}>Get from computer</Button>
             <Divider />
             <Text variant="muted">{data.notice}</Text>
-            <Text variant="muted">Powered by MeshCentral</Text>
+            <Text variant="muted">Powered by TightVNC and noVNC</Text>
           </Stack>
         )}
       </Row>

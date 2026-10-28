@@ -1,7 +1,13 @@
 {
-  "name": "my-remote", "version": "0.1.0-preview.1", "private": true,
-  "description": "One Workspace remote desktop, powered by MeshCentral",
+  "name": "my-remote",
+  "version": "0.1.0-preview.2",
+  "private": true,
+  "description": "One Workspace remote desktop, powered by TightVNC and noVNC",
   "license": "Apache-2.0",
-  "scripts": {"prepare:engine":"node scripts/prepare-engine.cjs", "test":"node --test test/*.test.cjs"},
-  "dependencies": {"meshcentral":"1.3.1", "node-windows":"0.1.14", "loadavg-windows":"1.1.1", "ws":"8.21.1"}
+  "scripts": {
+    "test": "node --test test/*.test.cjs"
+  },
+  "dependencies": {
+    "ws": "8.21.1"
+  }
 }
