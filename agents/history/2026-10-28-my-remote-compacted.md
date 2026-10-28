@@ -8,6 +8,10 @@ both owner PCs. The request authorizes publication and installation, but the
 functional release remains blocked. Do not confuse this source checkpoint
 with completion.
 
+Latest user steering: leave the second-PC installation pending. Do not treat
+that as cancellation of the first-PC release/install request. The first PC is
+still blocked by the unverified Windows host, independently of browser access.
+
 ## Source and architecture
 
 - Repository: https://github.com/oneworkspacestudio/my-remote. Public; Actions
@@ -73,3 +77,8 @@ own release instructions; do not bypass that workflow.
 
 No binary release/tag or two-machine installation has been completed at this
 checkpoint. Do not describe this as a 1:1 functional clone.
+
+Source checkpoint `6be1b0719e15f6476451e708d315588bfade0e39` was pushed and
+verified against GitHub `main`. Four unit tests and thirteen synthetic native/UI
+checks passed in the final run; host availability failed as expected (503).
+The sanitized result is `docs/acceptance-results.json`; `releaseAccepted` is false.
