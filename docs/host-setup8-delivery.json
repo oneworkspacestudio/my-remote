@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "version": "0.1.0-preview.8",
+  "release": "https://github.com/oneworkspacestudio/my-remote/releases/tag/v0.1.0-preview.8",
+  "sourceCommit": "7edcc79cd835b8d4be77fffdda1bb8170f9465ec",
+  "publicAssetsVerified": 12,
+  "publicChannelPromoted": true,
+  "organizationComponentPinned": true,
+  "primary": {
+    "manager": "0.3.0-preview.108",
+    "remote": "0.1.0-preview.8",
+    "normalProtectedAppOnlyUpdate": true,
+    "transactionComplete": true,
+    "verifiedRecoveryCopyRetained": true,
+    "verifiedPayloadFiles": 125,
+    "unrelatedAppContractsRetained": 33,
+    "existingLocationsAndIdentityRetained": true,
+    "protectedCredentialContentsRetained": true,
+    "credentialCheck": "Compared decrypted contents only in memory; DPAPI ciphertext changes on normal Save.",
+    "remoteHealthy": true,
+    "failedAppCountBefore": 1,
+    "failedAppCountAfter": 0,
+    "actualOwnerHostActivationVerified": false
+  },
+  "secondPC": {
+    "manager": "0.3.0-preview.108",
+    "remote": "0.1.0-preview.8",
+    "updatesUIReportsInstalledAndUpToDate": true,
+    "updatesUIReportsVerifiedRecoveryCopyRetained": true,
+    "publicBootstrapVersionVerified": true,
+    "myAccountsSessionRenewed": true,
+    "ownerOnlyDiagnosticsObserved": {
+      "effectivePolicy": "Restricted",
+      "machinePolicy": "Undefined",
+      "userPolicy": "Undefined",
+      "languageMode": "FullLanguage",
+      "hostSignature": "Valid",
+      "privateFileSystem": "NTFS"
+    },
+    "actualOwnerHostActivationVerified": false,
+    "pending": "Owner must choose/confirm the PIN and submit Enable remote access in the open form."
+  },
+  "physicalPhoneRebootPreloginOrExpandedDesktopCapabilitiesVerified": false,
+  "publishedReleaseAssetsReplaced": false
+}

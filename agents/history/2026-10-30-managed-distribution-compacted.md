@@ -151,3 +151,32 @@ manifest). Publishing/promotion/installation and actual second-PC diagnosis are
 still pending. Its drive was independently observed as NTFS. MyAccounts sign-in
 completed; My Remote is still unconfigured. The unsaved log-viewer newline was
 discarded and no log data was overwritten.
+
+## Preview8 published and installed; owner activation pending
+
+Source7edcc79 and immutable release v0.1.0-preview.8 are public; all12 assets
+match sizes/SHA256 and anonymous checksums. Workspace channel/pin commit ab492a3
+promotes8, retains the withheld6 exclusion and keeps Actions disabled. No suite
+release or unrelated app update was performed by this task.
+
+Primary normal protected app-only update completed on Workspace108. Its125 Remote
+payload hashes match the release;33 unrelated contracts, locations, identity and
+credential contents are retained. All apps currently report running (one failed
+at baseline). Latest verified recovery remains. An initial verification script
+incorrectly compared DPAPI ciphertext: normal Save re-encrypts it randomly. A
+read-only comparison of decrypted bytes in memory confirmed identical contents;
+no secrets were printed or persisted. Do not repeat the update to fix this check.
+
+Second PC's108 Updates UI reports Remote8 installed/up to date and a completed
+protected update with verified recovery retained; public bootstrap independently
+confirms8. Reopening My Remote renewed its session without another login. Its
+owner-only diagnostic GET confirms Restricted/Undefined/Undefined policy,
+FullLanguage, Valid host signature and NTFS. The previously suspected policy
+failure is now confirmed. Evidence: docs/host-setup8-delivery.json; the earlier
+immutable release acceptance receipt intentionally retains its predeployment facts.
+
+Resume at the open second-PC setup form. Owner was asked to choose/confirm their
+PIN and click Enable; await the result, then inspect host state/error and verify
+actual access as authorized. Do not automate credential/security dialogs or claim
+activation until observed. Primary host enrollment, physical-phone/reboot/prelogin
+and expanded desktop capability acceptance remain unverified.
