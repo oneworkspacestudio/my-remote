@@ -43,3 +43,23 @@ origin; its private broker channel clears all owner leases and immediately
 terminates owner streams. Independent approved guest grants retain stop/expiry
 semantics. Ordinary app sign-out disconnects its current lease before deleting
 the native session. Workspace must invoke/confirm revocation before owner logout.
+
+## Published and delivered through Workspace104
+
+Immutable Remote5 sourcef2f7efbe289c547603b04d8af7dbde93bb074986 and Workspace104
+source01e96882648e9f2b994b12b438783d5c4a776531 are published and publicly promoted.
+Exact coupled fresh-install/protected103-upgrade acceptance passed with synthetic
+NTFS data, real MyAccounts OIDC, picker/owner/guest boundaries, confirmed stream
+revocation and desktop/phone rendering. Workspace evidence is in
+docs/evidence/remote104; its mandatory publisher verified338 assets and Android10.
+
+Primary normal protected103-to104 install completed: Remote5 is registered,
+managed runtime is healthy, actual public HTTPS JS/CSS match release bytes,
+MyAccounts bootstrap is active, unauthorized desktop/origin requests are denied.
+The product migration redirected old unconfigured preview2 shortcuts to Workspace,
+retired duplicate startup/stop launchers, kept original launcher backups and
+preserved legacy program/data. All32 earlier app contracts/settings/credentials
+were retained. Desktop hosting stays inactive until owner setup. Second PC is
+pending by user instruction; no new actual host enrollment, physical-phone,
+reboot or expanded desktop capability acceptance is claimed. Lifecycle rules are
+centralized in the Workspace repository docs/APP-LIFECYCLE.md and104 release asset.
