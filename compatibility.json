@@ -1,1 +1,21 @@
-{"schema":1,"id":"remote","name":"My Remote","version":"0.1.0-preview.4","workspaceInstallerIntegration":3,"minimumWorkspaceVersion":"0.3.0-preview.104","route":"/remote","executable":"MyRemote.exe","health":"/healthz","oidc":true,"defaultPort":9025,"portOffset":35,"runtimeDependencies":["remote-runtime/node.exe","remote-runtime/host/tvnserver.exe"],"desktopActivation":"owner-opt-in","dataDirectory":"remote"}
+{
+  "schema": 1,
+  "id": "remote",
+  "name": "My Remote",
+  "version": "0.1.0-preview.5",
+  "workspaceInstallerIntegration": 3,
+  "minimumWorkspaceVersion": "0.3.0-preview.104",
+  "route": "/remote",
+  "executable": "MyRemote.exe",
+  "health": "/healthz",
+  "oidc": true,
+  "defaultPort": 9025,
+  "portOffset": 35,
+  "runtimeDependencies": [
+    "remote-runtime/node.exe",
+    "remote-runtime/host/tvnserver.exe"
+  ],
+  "desktopActivation": "owner-opt-in",
+  "dataDirectory": "remote",
+  "ownerStreamRevocation": "manager-v1"
+}

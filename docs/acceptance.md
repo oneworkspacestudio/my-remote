@@ -1,6 +1,8 @@
-# Managed delivery acceptance - preview.4
+Workspace sign-out now revokes owner stream leases through a manager-only, loopback and client-secret authenticated channel. Unit tests verify immediate owner-stream termination, independent guest grants, idle idempotence and rejection of browser/nonlocal/incorrect credentials. Active real-desktop sign-out still needs clean-host qualification.
 
-The current component requires Workspace104. Re-enable tests check host startup before commit, failure preserving disabled state and PIN validation before activation. Nine bridge/security/lifecycle unit tests and
+# Managed delivery acceptance - preview.5
+
+The current component requires Workspace104. Re-enable tests check host startup before commit, failure preserving disabled state and PIN validation before activation. Eleven bridge/security/lifecycle unit tests and
 the exact packaged executable's fresh NTFS idle-start test pass. Owner sign-in,
 CSRF denial, invalid-PIN rejection before activation, no host credentials created,
 phone rendering with no overflow/errors and child cleanup are checked by

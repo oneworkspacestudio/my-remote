@@ -95,6 +95,13 @@ func New(h *apphost.Host) (apphost.Application, error) {
 		}
 		apphost.Problem(w, 401, "Sign in or request support")
 	}
+	h.Mux.HandleFunc("POST /_integration/revoke-owner-sessions", func(w http.ResponseWriter, r *http.Request) {
+		if !managerAllowed(h.Config, r) {
+			apphost.Problem(w, 403, "Workspace manager authorization required")
+			return
+		}
+		proxy.ServeHTTP(w, r)
+	})
 	for _, method := range []string{"GET ", "POST "} {
 		h.Mux.HandleFunc(method+"/api/remote/", h.Owner(proxy.ServeHTTP))
 		h.Mux.HandleFunc(method+"/support-api/", public)

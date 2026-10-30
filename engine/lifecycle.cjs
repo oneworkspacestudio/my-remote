@@ -8,4 +8,5 @@ function updateDevice(state,body,ensureHost){
  if(!next.disabled)ensureHost();
  return next;
 }
-module.exports={updateDevice};
+function revokeOwnerStreams(leases,sockets){leases.clear();for(const x of sockets)if(x.ctx.owner&&!x.ctx.guest)x.ws.terminate();}
+module.exports={updateDevice,revokeOwnerStreams};

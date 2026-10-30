@@ -34,3 +34,12 @@ is re-enabled after a disabled restart. Device updates now validate first and
 ensure host startup before persisting enabled state; failure leaves state disabled.
 Three focused lifecycle tests join the six bridge/security checks. Remote4 is the
 intended component for Workspace104; Remote3 remains an immutable checkpoint.
+
+## Preview5 managed sign-out
+
+Native HTTP session deletion alone cannot end already-open desktop WebSockets.
+A revoke-only loopback endpoint authenticates the Workspace client secret and
+origin; its private broker channel clears all owner leases and immediately
+terminates owner streams. Independent approved guest grants retain stop/expiry
+semantics. Ordinary app sign-out disconnects its current lease before deleting
+the native session. Workspace must invoke/confirm revocation before owner logout.

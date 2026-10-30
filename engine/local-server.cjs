@@ -1,4 +1,4 @@
-const {updateDevice}=require('./lifecycle.cjs');
+const {updateDevice,revokeOwnerStreams}=require('./lifecycle.cjs');
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),net=require('node:net'),os=require('node:os');
 const {WebSocketServer}=require('ws');
@@ -49,6 +49,7 @@ const server=http.createServer(async(req,res)=>{
  if(!equal(req.headers['x-remote-broker'],secret)){res.writeHead(403);return res.end();}
  try{
   const route=new URL(req.url,'http://localhost').pathname.slice(base.length);
+  if(route==='/_integration/revoke-owner-sessions'&&req.method==='POST'){revokeOwnerStreams(leases,sockets);return json(res,200,{ok:true});}
   if(route==='/internal/ready')return json(res,200,{ready:true,host:await online()});
   if(route==='/support-api/redeem'&&req.method==='POST'){const b=await body(req),token=support.redeem(String(b.code||'').replace(/\s/g,''),b.name,'global');res.setHeader('Set-Cookie',`remote_guest=${token}; Path=${base}/; HttpOnly; SameSite=Strict; Max-Age=2100${origin.protocol==='https:'?'; Secure':''}`);return json(res,200,{status:'requested'});}
   if(route==='/support-api/status'){const g=guest(req);return json(res,200,g?{status:g.status,nodeid:'local',name:g.name,expires:g.expires}:{status:'expired'});}
