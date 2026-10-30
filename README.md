@@ -1,72 +1,50 @@
 # My Remote
 
-My Remote provides a Chrome Remote Desktop inspired interface for viewing and
-controlling a Windows PC through a browser. It is an independent One Workspace
-project and is not affiliated with Google.
+My Remote lets a Workspace owner share and control their signed-in Windows desktop
+through a browser. It uses TightVNC and noVNC, with a Google Remote Desktop inspired
+interface. It is an independent One Workspace app and is not affiliated with Google.
 
-**Current release: local preview for a signed-in Windows user.** It includes a
-signed TightVNC host, noVNC browser viewer, account sign-in, access PINs and
-approved temporary support sessions. A real Windows screen stream and access
-revocation have been tested. Internet access, a pre-login Windows service,
-audio and file transfer are not included in this preview.
+## Get started
 
-## Install on Windows
+Install or update [One Workspace](https://github.com/oneworkspacestudio/one-workspace/releases)
+to version 0.3.0-preview.104 or later. Open **My Remote** in the Workspace app picker
+and sign in with MyAccounts. Choose **Set up remote access**, a computer name and
+your own PIN. Desktop access stays off until you enable it.
 
-Download the Windows x64 package from [Releases](https://github.com/oneworkspacestudio/my-remote/releases),
-extract it, and run `install.ps1` with PowerShell. It installs for the current
-Windows account without administrator privileges. The installer preserves
-existing TightVNC installations by refusing to overwrite their configuration.
+My Remote is managed by Workspace: installation, startup, sign-in, updates and
+backups use the same controls as the other apps. The separate app release is a
+component package for Workspace, not another installer to run on each PC.
+See [installation and migration](docs/INSTALLING.md).
 
-Open **My Remote** from the Start menu. On first use, create your owner account,
-then choose **Set up remote access** and set your computer name and PIN.
-**Stop My Remote** stops both the app and its supervised Windows host. The app
-starts quietly at Windows sign-in. See [installation details](docs/INSTALLING.md).
+## What you can do
 
-The default address is `http://localhost:9034/remote/`. This is deliberately a
-local-only preview; it is not yet a link you can use from another computer.
-An authenticated HTTPS gateway and its deployment tests remain outstanding.
+- Connect with your Workspace owner account and a PIN.
+- Approve a temporary support request using a one-use code; revoke it at any time.
+- View the desktop, fit it to the window, use fullscreen, adjust quality or choose
+  view-only mode. Keyboard, mouse, touch and explicit text clipboard controls use noVNC.
 
-## What works in this preview
-
-- Google-style Remote Access and Remote Support screens on desktop and phone.
-- Account and PIN protection for desktop connection leases.
-- One-use support codes, owner approval, expiry and revocation.
-- A real Windows screen stream through the noVNC canvas.
-- Fullscreen, fit-to-window, quality and view-only controls.
-- Upstream keyboard, mouse, touch and text clipboard support, with explicit UI
-  actions. Physical input and clipboard were not exercised against the owner's
-  personal desktop during automated validation.
-
-The native host requires a random private password and listens only on loopback.
-The authenticated bridge performs native authentication server-side, so the
-native password is never sent to a browser. File-transfer and terminal protocols
-are not exposed. This is not full Google Remote Desktop feature parity.
+This preview works while the Windows user is signed in. Access before sign-in,
+secure-desktop control, audio, file transfer and individual monitor selection are
+not included. It does not provide full Google Remote Desktop feature parity.
+Use Workspace's authenticated HTTPS address for network access; never expose the
+private VNC or bridge listeners. Physical input/clipboard and two-PC network desktop
+acceptance remain separate from synthetic UI and authentication checks.
 
 ## Development
 
-```powershell
-./scripts/build.ps1
-npm test
-node scripts/local-acceptance.cjs
-```
-
-Native acceptance requires the signed host in the ignored `host/` directory and
-Node in the ignored `node.exe` path. It uses fresh synthetic app accounts and a
-short-lived loopback host configuration. It verifies a real framebuffer without
-saving the desktop image or sending input to personal apps. See
-[acceptance](docs/acceptance.md), [engine research](docs/engine-research.md) and
-[packaging](docs/INSTALLING.md).
+Build with `scripts/build.ps1`, run `npm test`, and use
+`scripts/managed-acceptance.cjs` with a fresh named NTFS fixture root and exact
+packaged executable. It checks idle startup without configuring the Windows host.
+Do not run native enrollment tests against an existing TightVNC configuration or
+use personal accounts/files as fixtures. See [acceptance](docs/acceptance.md).
 
 UI trees live in `web/src/screens/*.aui`; generated React lives in
 `web/src/generated`. The Go app embeds the UI and supervises its Node bridge and
 Windows host. Dependencies are pinned in npm lockfiles and `go.mod`/`go.sum`.
 
-## Licences and previews
+## Licences
 
 The application is Apache-2.0. Unmodified TightVNC runs as a separate GPL-2.0
-executable over the RFB protocol; its complete corresponding source is supplied
-with the release. noVNC is MPL-2.0. Runtime and dependency notices are included.
-See [third-party notices](docs/third-party-notices.md).
-
-[Synthetic desktop UI](docs/screenshots/remote-access-desktop.png) ·
-[Synthetic phone UI](docs/screenshots/remote-support-phone.png)
+executable over RFB; complete corresponding source accompanies the release.
+noVNC is MPL-2.0. Runtime and dependency notices are included. See
+[third-party notices](docs/third-party-notices.md).

@@ -30,7 +30,7 @@ func New(h *apphost.Host) (apphost.Application, error) {
 		return nil, e
 	}
 	runtime := filepath.Join(filepath.Dir(exe), "remote-runtime")
-	if p := os.Getenv("MY_REMOTE_RUNTIME"); p != "" {
+	if p := os.Getenv("MY_REMOTE_RUNTIME"); p != "" && h.Config.Issuer == "" {
 		runtime = p
 	}
 	for _, p := range []string{"node.exe", "engine/local-server.cjs", "node_modules/ws/index.js", "host/tvnserver.exe"} {
@@ -103,7 +103,8 @@ func New(h *apphost.Host) (apphost.Application, error) {
 	return a, nil
 }
 func (a *App) Run(ctx context.Context) error {
-	env := []string{"MY_REMOTE_DATA=" + a.h.Config.Data, "MY_REMOTE_ORIGIN=" + a.h.Config.Origin, "MY_REMOTE_SECRET=" + a.secret, "MY_REMOTE_ENGINE_PORT=" + strconv.Itoa(a.engine), "MY_REMOTE_BROKER_PORT=" + strconv.Itoa(a.broker), "NODE_ENV=production"}
+
+	env := []string{"MY_REMOTE_DATA=" + a.h.Config.Data, "MY_REMOTE_ORIGIN=" + a.h.Config.Origin, "MY_REMOTE_SECRET=" + a.secret, "MY_REMOTE_ENGINE_PORT=" + strconv.Itoa(a.engine), "MY_REMOTE_BROKER_PORT=" + strconv.Itoa(a.broker), "NODE_ENV=production", "MY_REMOTE_WORKSPACE=" + a.h.Config.WorkspaceURL, "MY_REMOTE_LEGACY_DATA=" + filepath.Join(os.Getenv("LOCALAPPDATA"), "OneWorkspace", "MyRemote"), "MY_REMOTE_LEGACY_EXE=" + filepath.Join(os.Getenv("LOCALAPPDATA"), "Programs", "OneWorkspace", "MyRemote", "0.1.0-preview.2", "MyRemote.exe")}
 	log, e := os.OpenFile(filepath.Join(a.h.Config.Data, "engine.log"), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if e != nil {
 		return e

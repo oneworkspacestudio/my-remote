@@ -1,53 +1,62 @@
 # Installing and packaging My Remote
 
-## Current-user installation
+## Managed installation
 
-The Windows x64 zip includes `install.ps1`, `MyRemote.exe`, the signed Node
-runtime, the signed unmodified TightVNC host, the private bridge and licence
-notices. Run the installer after extracting the zip. No administrator access is
-required. It verifies the manifest and publisher-signed host/runtime before use.
+Version 0.1.0-preview.3 requires One Workspace 0.3.0-preview.104 or later.
+Use Workspace setup or its protected updater. My Remote is a default Administration
+app, served at `/remote`, with MyAccounts owner sign-in and a shared picker entry.
+Do not run the earlier standalone installer or copy a local shortcut to deliver it.
 
-Program files go to `%LOCALAPPDATA%/Programs/OneWorkspace/MyRemote/<version>`.
-Private data goes to `%LOCALAPPDATA%/OneWorkspace/MyRemote` and is restricted to
-the current user and SYSTEM. Existing data and prior version folders are retained.
-An existing unrelated TightVNC configuration or process stops installation.
+Workspace installs `MyRemote.exe`, signed Node, the unmodified signed TightVNC host,
+bridge scripts and notices. The catalog owns and hashes every payload. The manager
+verifies and holds runtime files while supervising the app. Independent updates
+include the whole owned runtime, preserve other apps and require a compatible manager.
 
-Start menu entries are **My Remote** and **Stop My Remote**. A startup shortcut
-starts the app without a browser when the current user signs in. The TightVNC
-tray icon remains visible. Stopping the app closes the job containing the bridge
-and host. Closing a browser session does not uninstall or stop the host.
+Data lives in Workspace's Private/remote directory and uses the standard protected
+backup and rollback scope. No owner, PIN or host credential is supplied. The app
+starts healthy and idle; an authenticated owner's explicit setup action creates
+the private host password and loopback-only native configuration. An unrelated
+TightVNC configuration or running host stops activation without overwriting it.
 
-On first launch, the My Remote shortcut opens the private one-time owner setup
-link. Create your own account and access PIN. No default login or PIN is supplied.
-The plain localhost root does not grant owner setup by itself.
+The app port is Workspace's base port plus 35 (9025 with the default base of 8990).
+The private broker and native host use app-port plus 101 and 102. These bind loopback;
+only Workspace's authorized HTTP/WebSocket gateway is intended for browser access.
+No firewall exception, security exclusion, DNS or public tunnel is added.
 
-Listeners: app 9034, private broker 9135, native host 9136, all on loopback.
-The native host requires a generated private password. No firewall exception,
-security-product exclusion, tunnel, DNS entry or public route is installed.
+## Earlier standalone preview
+
+Preview.2 was local-only and did not join Workspace distribution. Managed startup
+recognizes that specific preview's app marker. If no desktop owner was enrolled,
+it stops the exact legacy executable, backs up and retires its sign-in launcher
+and Stop shortcut, and redirects existing My Remote shortcuts to Workspace.
+It retains the old program/data directories. Activation can migrate only the exact
+legacy host registration; an unrelated host is refused.
+
+An enrolled standalone preview is left intact for explicit migration review;
+its account, desktop grants and credentials are never silently replaced. The app
+shows any activation conflict. Keep recovery copies until migration is verified.
 
 ## Scope
 
-This preview works while its Windows user is signed in. Access before sign-in,
-secure-desktop control, remote internet/LAN connectivity, audio and file transfer
-are not delivered. The UI explicitly identifies local-only operation.
-Configuring an authenticated HTTPS gateway and testing access from another device
-are separate deployment work. Do not expose the plain native VNC listener.
+The native host requires a random private password and listens only on loopback.
+The broker authenticates server-side; browsers receive expiring owner/PIN leases
+or approved guest grants, never the native password. Terminal and file-transfer
+protocols are not exposed. The host operates while its Windows user is signed in.
+Before-sign-in service, secure desktop, audio, files and per-monitor selection are
+not delivered. Network connectivity must be verified for each claimed deployment.
 
-## Rebuilding a package
+## Rebuilding and publishing
 
-Build with Node 26.8.2 and Go 1.27.3 using `scripts/build.ps1`. The packaging script
-accepts a new output directory, an extracted official TightVNC 2.8.90 host folder,
-verified Node executable, its licence and the Go executable path. It copies
-runtime dependencies and their notices, writes a SHA256 manifest, and creates a
-zip. Keep private data and credentials outside the package.
+Build with Node 26.8.2 and Go 1.27.3. `scripts/package.ps1` accepts a new output
+directory, the extracted official TightVNC 2.8.90 host, verified Node executable,
+its licence and Go path. It produces a managed component zip, not a standalone
+installer. `compatibility.json` declares the minimum Workspace version, route,
+activation and runtime ownership contract. Keep all private data outside packages.
 
-Official inputs and immutable SHA256 values are recorded in
-`docs/runtime-provenance.json`. Extract the signed TightVNC MSI administratively
-with `msiexec /a <msi> /qn TARGETDIR=<new staging directory>`; this extracts files
-without installing a system service. Preserve the unmodified GPL source archive
-as a release asset. Node's licence includes its bundled dependency notices.
-
-Publish the Windows zip, app source archive, TightVNC corresponding source,
-noVNC source, runtime provenance and SHA256 checksums together. This independent
-preview is not a managed Workspace bundle release; it has not changed the suite
-catalog or update channel.
+Official inputs and hashes are in `runtime-provenance.json`. Preserve publisher
+signatures and corresponding source. Publish the component zip, executable,
+`workspace-update.json`, app source, TightVNC/noVNC source, provenance and checksums.
+Then pin it in Workspace's organization build, validate the complete registry,
+verify fresh setup and earlier-version upgrade, and publish/promote the Workspace
+release through its mandatory signed-Android publisher. Follow the organization's
+[app lifecycle rules](https://github.com/oneworkspacestudio/one-workspace/blob/main/docs/APP-LIFECYCLE.md).

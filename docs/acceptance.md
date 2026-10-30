@@ -1,3 +1,25 @@
+# Managed delivery acceptance - preview.3
+
+The current component requires Workspace104. Six bridge/security unit tests and
+the exact packaged executable's fresh NTFS idle-start test pass. Owner sign-in,
+CSRF denial, invalid-PIN rejection before activation, no host credentials created,
+phone rendering with no overflow/errors and child cleanup are checked by
+`scripts/managed-acceptance.cjs`. Set MY_REMOTE_QA_ROOT to a new named fixture root
+and MY_REMOTE_QA_EXE to the exact package executable; never use owner data.
+
+Desktop access is intentionally off on installation. This run does not configure
+the real Windows registry or capture the personal desktop. The RFB adapter is
+unchanged from preview.2's real framebuffer acceptance below. Fresh Workspace
+setup/upgrade, shared sign-in, public gateway and update/recovery checks are
+recorded in the Workspace repository. Do not claim a second-PC, reboot, physical
+phone, secure desktop or new end-to-end input test without performing one.
+
+The older local-acceptance script changes per-user host configuration. Run it only
+on an isolated Windows account/machine without any existing TightVNC host; it is
+not safe as an unattended regression test on a personal installation.
+
+## Earlier prototype and standalone evidence
+
 # Acceptance: 0.1.0-preview.2
 
 This release is a local-only, per-user Windows preview. Six unit tests and twelve
