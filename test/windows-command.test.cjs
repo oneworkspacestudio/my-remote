@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const {commandEnvironment}=require('../engine/windows-command.cjs');
+const {commandEnvironment}=require('../engine/lifecycle.cjs');
 test('restricted worker receives native command extensions and trusted system paths',()=>{
  const input={SystemRoot:'C:\\Windows',TEMP:'C:\\fixture',MY_REMOTE_SECRET:'fixture',Path:'C:\\untrusted',PathExt:'.TXT'};
  const env=commandEnvironment(input);

@@ -10,7 +10,7 @@ const base=origin.pathname.replace(/\/$/,''),port=Number(process.env.MY_REMOTE_B
 const statePath=path.join(data,'remote-settings.json');
 let state=fs.existsSync(statePath)?JSON.parse(fs.readFileSync(statePath,'utf8')):{owner:null,name:os.hostname(),disabled:true};
 const {spawn,execFileSync}=require('node:child_process');
-const {commandEnvironment}=require('./windows-command.cjs');
+const {commandEnvironment}=require('./lifecycle.cjs');
 const commandEnv=commandEnvironment();
 const powershell=path.join(process.env.SystemRoot||'C:/Windows','System32/WindowsPowerShell/v1.0/powershell.exe');
 if(process.env.MY_REMOTE_WORKSPACE){

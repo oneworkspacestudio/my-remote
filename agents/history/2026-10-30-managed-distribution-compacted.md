@@ -76,3 +76,9 @@ script includes the new helper. Restricted-environment host configuration passes
 after the fix; all13 Node security/lifecycle tests pass (including real Windows PowerShell native-command regression). Diagnostics record exit
 status/code without raw secrets. Owner data/registry were not used as fixtures;
 no desktop/PIN was enrolled. Release6 and protected primary app update pending.
+
+Preview6 was published and verified, but the normal106 update planner correctly
+refused its additional runtime package: app-only updates cannot add files to an
+existing app contract. Nothing was installed. Preview7 moves commandEnvironment
+into the existing lifecycle.cjs payload, retaining the exact installed package
+file set. Keep6 immutable and withhold it from the public channel after7.
