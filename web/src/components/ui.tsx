@@ -7,7 +7,7 @@ const Label=createContext('');
 const cls=(n:string,p:Props)=>[n,p.variant&&n+'--'+p.variant].filter(Boolean).join(' ');
 export const Page=(p:Props)=>React.createElement('div',{className:'page'},p.children);
 export const Row=(p:Props)=>React.createElement('div',{className:cls('row',p)},p.children);
-export const Stack=(p:Props)=>React.createElement('div',{className:cls('stack',p)},p.children);
+export const Stack=(p:Props)=>React.createElement('div',{className:cls('stack',p),id:p.id,role:p.role,'aria-label':p['aria-label']},p.children);
 export const Grid=(p:Props)=>React.createElement('div',{className:cls('grid',p)},p.children);
 export const Card=(p:Props)=>{const ref=useRef<HTMLDialogElement>(null),ctx=useContext(Fields);useEffect(()=>{if(p.variant!=='dialog')return;const previous=document.activeElement as HTMLElement;ref.current?.showModal();return()=>previous?.focus()},[p.variant]);return React.createElement(p.variant==='dialog'?'dialog':'section',{ref,className:cls('card',p),onCancel:(e:Event)=>{e.preventDefault();ctx.dismiss?.()}},p.children)};
 export const Heading=(p:Props)=>React.createElement('h'+(p.level||2),{},p.children);
@@ -15,7 +15,7 @@ export const Text=(p:Props)=>React.createElement('span',{className:cls('text',p)
 export const Spacer=()=>React.createElement('span',{className:'spacer'});
 export const Icon=(p:Props)=>React.createElement(icons[p.name]||Monitor,{size:p.size||22,strokeWidth:1.7,'aria-hidden':true});
 export const Link=(p:Props)=>React.createElement('a',{className:cls('button',p),href:p.href,target:p.external?'_blank':undefined,rel:p.external?'noopener noreferrer':undefined},p.children);
-export const Button=(p:Props)=>{const c=useContext(Fields);return React.createElement('button',{type:'button',className:cls('button',p),disabled:p.disabled||c.busy,'aria-label':p['aria-label'],onClick:()=>{c.select?.(p.item);p.onClick?.()}},p.children)};
+export const Button=(p:Props)=>{const c=useContext(Fields);return React.createElement('button',{type:'button',className:cls('button',p),disabled:p.disabled||(c.busy&&!p.allowWhileBusy),'aria-label':p['aria-label'],'aria-expanded':p['aria-expanded'],'aria-controls':p['aria-controls'],onClick:()=>{c.select?.(p.item);p.onClick?.()}},p.children)};
 export const Field=(p:Props)=>React.createElement('label',{className:'field'},React.createElement('span',{},p.label),React.createElement(Label.Provider,{value:p.label},p.children));
 export const Input=(p:Props)=>{const c=useContext(Fields),label=useContext(Label);return React.createElement(p.multiline?'textarea':'input',{name:p.name,type:p.type||'text',inputMode:p.inputMode,autoComplete:p.autoComplete||'off',placeholder:p.placeholder,autoFocus:p.autoFocus,value:c.fields[p.name]??'','aria-label':label,onChange:(e:any)=>c.setField(p.name,e.target.value)},null)};
 export const Select=(p:Props)=>{const c=useContext(Fields),label=useContext(Label);return React.createElement('select',{'aria-label':label,value:c.fields[p.name]??'',onChange:(e:any)=>c.setField(p.name,e.target.value)},(p.options||[]).map((x:any)=>React.createElement('option',{key:x.value,value:x.value},x.label)))};

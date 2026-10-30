@@ -1,0 +1,29 @@
+{
+  "syntheticAPIAndFramebuffer": true,
+  "defaultClosed": true,
+  "touchToggleAndClose": true,
+  "outsideTapDismissesWithoutRemoteInput": true,
+  "closeVisibleAfterScroll": true,
+  "pendingRequestDoesNotTrapPanel": true,
+  "reconnectStartsClosed": true,
+  "viewports": [
+    [
+      390,
+      844
+    ],
+    [
+      320,
+      640
+    ],
+    [
+      720,
+      320
+    ],
+    [
+      1440,
+      900
+    ]
+  ],
+  "noOverflowOrRuntimeErrors": true,
+  "ownerDataOrHostUsed": false
+}

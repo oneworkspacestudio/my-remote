@@ -1,6 +1,6 @@
 {
   "name": "my-remote",
-  "version": "0.1.0-preview.8",
+  "version": "0.1.0-preview.9",
   "private": true,
   "description": "One Workspace remote desktop, powered by TightVNC and noVNC",
   "license": "Apache-2.0",

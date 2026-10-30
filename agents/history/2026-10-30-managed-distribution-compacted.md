@@ -180,3 +180,22 @@ PIN and click Enable; await the result, then inspect host state/error and verify
 actual access as authorized. Do not automate credential/security dialogs or claim
 activation until observed. Primary host enrollment, physical-phone/reboot/prelogin
 and expanded desktop capability acceptance remain unverified.
+
+## Preview9 mobile session options repair
+
+The owner's phone screenshot subsequently shows an active Remote8 desktop session,
+but its options panel starts open and cannot conveniently be dismissed. That is
+user-provided evidence of activation/phone access, not a new automated host test.
+The UI initialized options=true and provided only a header toggle. Preview9 starts
+each session/reconnect closed, adds a sticky explicit close button and a mobile
+outside-tap dismissal surface that intercepts input instead of forwarding it to
+the remote desktop. Local visibility controls remain usable during pending API
+requests; the header stays above the framebuffer. The AUI screen is authoritative.
+
+Synthetic API/RFB acceptance against production assets passes real touch actions
+at390x844,320x640,720x320 and1440x900: closed default, open/toggle/close, no remote
+pointer message on dismissal, close visible after scrolling, pending-request
+dismissal, closed reconnect, no overflow/runtime errors. No owner host/data used.
+All17 Node regressions, frontend build/native build and exact-package idle/auth
+acceptance pass. Package payload paths remain identical:124 plus manifest. Evidence
+is docs/session-options9-acceptance.json. Release/channel/installation pending.
