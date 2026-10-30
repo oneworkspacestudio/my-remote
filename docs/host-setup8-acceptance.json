@@ -1,0 +1,21 @@
+{
+  "version": "0.1.0-preview.8",
+  "nodeTestsPassed": 17,
+  "nativeGoTestsPassed": true,
+  "frontendBuildPassed": true,
+  "restrictedParentHostConfigurationPassed": true,
+  "isolatedRegistryNamespace": true,
+  "freshNTFSFixture": true,
+  "machineAndUserPoliciesUnchanged": true,
+  "packagedOwnerOnlyDiagnosticsPassed": true,
+  "diagnosticFieldsAllowlisted": true,
+  "idleStartupPassed": true,
+  "invalidPINAndCSRFRejected": true,
+  "noHostCredentialsCreatedByIdleAcceptance": true,
+  "mobileNoErrorsOrOverflow": true,
+  "payloadPathsMatchPreview7": true,
+  "payloadFileCountExcludingManifest": 124,
+  "ownerInstallationUsedAsFixture": false,
+  "actualOwnerHostActivationVerified": false,
+  "secondPCExecutionPolicyConfirmed": false
+}

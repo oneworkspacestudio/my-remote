@@ -10,27 +10,27 @@ const base=origin.pathname.replace(/\/$/,''),port=Number(process.env.MY_REMOTE_B
 const statePath=path.join(data,'remote-settings.json');
 let state=fs.existsSync(statePath)?JSON.parse(fs.readFileSync(statePath,'utf8')):{owner:null,name:os.hostname(),disabled:true};
 const {spawn,execFileSync}=require('node:child_process');
-const {commandEnvironment}=require('./lifecycle.cjs');
+const {commandEnvironment,bundledPowerShellArguments,setupDiagnosticCommand,setupDiagnostics,setupFailure}=require('./lifecycle.cjs');
 const commandEnv=commandEnvironment();
 const powershell=path.join(process.env.SystemRoot||'C:/Windows','System32/WindowsPowerShell/v1.0/powershell.exe');
 if(process.env.MY_REMOTE_WORKSPACE){
- try{execFileSync(powershell,['-NoProfile','-NonInteractive','-File',path.join(__dirname,'../scripts/migrate-launchers.ps1'),'-LegacyData',process.env.MY_REMOTE_LEGACY_DATA||'', '-LegacyExe',process.env.MY_REMOTE_LEGACY_EXE||'', '-WorkspaceURL',process.env.MY_REMOTE_WORKSPACE],{env:commandEnv,windowsHide:true,stdio:'pipe',timeout:20000});}catch{console.error('Legacy My Remote launchers need migration review.');}
+ try{execFileSync(powershell,bundledPowerShellArguments(path.join(__dirname,'../scripts/migrate-launchers.ps1'),'-LegacyData',process.env.MY_REMOTE_LEGACY_DATA||'', '-LegacyExe',process.env.MY_REMOTE_LEGACY_EXE||'', '-WorkspaceURL',process.env.MY_REMOTE_WORKSPACE),{env:commandEnv,windowsHide:true,stdio:'pipe',timeout:20000});}catch{console.error('Legacy My Remote launchers need migration review.');}
 }
 let native=null,host=null,hostError='';
 function startHost(){
  if(host)return;
  const value=JSON.parse(fs.readFileSync(path.join(data,'host-secret.json'),'utf8'));
  if(value.port!==hostPort||typeof value.password!=='string'||value.password.length!==8)throw Error('Host configuration does not match');
- execFileSync(powershell,['-NoProfile','-NonInteractive','-File',path.join(__dirname,'../scripts/verify-host.ps1'),'-Data',data,'-Port',String(hostPort)],{env:commandEnv,windowsHide:true,stdio:'pipe'});
+ execFileSync(powershell,bundledPowerShellArguments(path.join(__dirname,'../scripts/verify-host.ps1'),'-Data',data,'-Port',String(hostPort)),{env:commandEnv,windowsHide:true,stdio:'pipe'});
  native=value;host=spawn(path.join(__dirname,'../host/tvnserver.exe'),['-run'],{windowsHide:true,stdio:'ignore'});hostError='';
  host.on('error',()=>{host=null;hostError='The Windows host could not start. Check host configuration.';});
  host.on('exit',()=>{host=null;hostError='The Windows host stopped. Enable access again to restart it.';});
 }
 function configureHost(){
- const args=['-NoProfile','-NonInteractive','-File',path.join(__dirname,'../scripts/configure-host.ps1'),'-Data',data,'-Runtime',path.join(__dirname,'..'),'-Port',String(hostPort),'-Origin',origin.href];
+ const args=bundledPowerShellArguments(path.join(__dirname,'../scripts/configure-host.ps1'),'-Data',data,'-Runtime',path.join(__dirname,'..'),'-Port',String(hostPort),'-Origin',origin.href);
  if(process.env.MY_REMOTE_LEGACY_DATA)args.push('-LegacyData',process.env.MY_REMOTE_LEGACY_DATA);
  if(process.env.MY_REMOTE_LEGACY_EXE)args.push('-LegacyExe',process.env.MY_REMOTE_LEGACY_EXE);
- try{execFileSync(powershell,args,{env:commandEnv,windowsHide:true,stdio:'pipe',timeout:30000});}catch(e){console.error('Windows host setup failed; exit status:',e.status,'code:',e.code||'none');const text=String(e.stderr||'');if(text.includes('already running')||text.includes('owned by')||text.includes('enrolled'))throw Error('An existing desktop host must be stopped or migrated before enabling this computer.');throw Error('Windows host setup failed. Check private host logs and permissions.');}
+ try{execFileSync(powershell,args,{env:commandEnv,windowsHide:true,stdio:'pipe',timeout:30000});}catch(e){const failure=setupFailure(e);console.error('Windows host setup failed; reason:',failure.code,'exit status:',Number.isInteger(e.status)?e.status:'unknown');throw Error(failure.message);}
  startHost();
 }
 if(state.owner&&!state.disabled){try{startHost();}catch{hostError='The desktop host needs setup. Enable access again to configure it.';}}
@@ -57,6 +57,12 @@ const server=http.createServer(async(req,res)=>{
   if(route==='/support-api/status'){const g=guest(req);return json(res,200,g?{status:g.status,nodeid:'local',name:g.name,expires:g.expires}:{status:'expired'});}
   if(route==='/support-api/stop'&&req.method==='POST'){const g=guest(req);if(g){g.status='revoked';closeGrant(g.id);}return json(res,200,{ok:true});}
   const ctx=context(req);if(ctx.guest)throw Error('Owner required');
+  if(route==='/api/remote/setup-diagnostics'&&req.method==='GET'){
+   try{
+    const raw=execFileSync(powershell,['-NoProfile','-NonInteractive','-Command',setupDiagnosticCommand],{env:{...commandEnv,MY_REMOTE_DIAGNOSTIC_HOST:path.join(__dirname,'../host/tvnserver.exe')},windowsHide:true,stdio:'pipe',timeout:15000,encoding:'utf8',maxBuffer:16384});
+    return json(res,200,setupDiagnostics(JSON.parse(raw.replace(/^\uFEFF/,''))));
+   }catch{return json(res,200,setupDiagnostics(null));}
+  }
   if(route==='/api/remote/devices')return json(res,200,{devices:state.owner===ctx.owner?[{id:'local',name:state.name,platform:'Windows • available while signed in',online:await online(),pin:!!state.pin,disabled:state.disabled}]:[],engine:'TightVNC 2.8.90 / noVNC 1.7.0',hostError});
   if(route==='/api/remote/support')return json(res,200,{requests:[...support.codes.values()].filter(x=>x.owner===ctx.owner&&x.status!=='revoked'&&x.expires>Date.now()).map(({id,nodeid,name,status,expires})=>({id,nodeid,name,status,expires}))});
   const b=await body(req);

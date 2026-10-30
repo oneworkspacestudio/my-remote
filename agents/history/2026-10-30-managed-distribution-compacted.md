@@ -108,3 +108,46 @@ retained. All33 services healthy, all125 Remote payload hashes match release, pu
 HTTPS MyAccounts bootstrap reports7. No PIN/host enrollment was performed; the
 owner must retry Enable remote access. Second PC remains pending. Evidence is
 docs/evidence/remote-host-setup7*.json. No real desktop/reboot/physical-phone claim.
+
+## Second-PC diagnosis resumed
+
+User resumed the second-PC investigation through its existing Chrome Remote
+Desktop session. Its Updates UI reports Workspace108 complete with the verified
+recovery copy retained; anonymous HTTPS My Remote bootstrap confirms Remote7 and
+MyAccounts/OIDC. Host activation is still unverified. Private engine.log records
+host setup exit status1/code none, but the current catch discards the underlying
+PowerShell error. No host-secret or remote-settings file was present in the
+observed app data directory. Do not assume the PATHEXT repair solved this machine.
+
+The public address temporarily returned Cloudflare1033 and the local manager
+health connection was refused. Starting the existing installed Workspace.exe
+restored the public Remote7 bootstrap. An older launcher.log mentions a paging
+file failure starting My Slicer, but its old timestamp does not establish the
+cause of this incident. No OS settings, credentials or host enrollment changed.
+
+Resume by clearing the local suite.test.exe firewall prompt manually and completing
+any required MyAccounts sign-in. Other active tasks have been using the same
+computer-control helper; serialize UI control to avoid stale screenshot IDs and
+conflicting navigation. Diagnose the setup error before another release; policy,
+publisher trust and private-volume ACL support are possibilities, not confirmed
+causes. No new source fix or release was made in this continuation.
+
+## Preview8 default Windows policy repair - source and package verified
+
+Reproduced another out-of-box failure: Windows PowerShell Restricted blocks
+unsigned -File scripts before configuration runs, independently of PATHEXT.
+Bundled configure/verify/migration invocations now use the documented process-only
+application-hosted script option. Machine/user policy snapshots remain identical;
+Group Policy keeps precedence. Host hash/signature, ACL and ownership guards stay.
+The diagnostic GET is owner-only/read-only and returns six bounded enums, never
+raw output, paths or credentials. Failures expose/log fixed safe reason codes.
+
+17 Node regressions pass, including full configuration with a Restricted parent,
+fresh NTFS data and a unique disposable test registry key. Native Go tests/build
+and frontend production build pass. Exact package acceptance covers unauthorized
+diagnostic denial, owner diagnostics, signed host/NTFS checks, no host enrollment,
+CSRF/PIN rejection and mobile UI. 124 payload paths match7 exactly (125 including
+manifest). Publishing/promotion/installation and actual second-PC diagnosis are
+still pending. Its drive was independently observed as NTFS. MyAccounts sign-in
+completed; My Remote is still unconfigured. The unsaved log-viewer newline was
+discarded and no log data was overwritten.

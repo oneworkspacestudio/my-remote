@@ -1,5 +1,29 @@
 Workspace sign-out now revokes owner stream leases through a manager-only, loopback and client-secret authenticated channel. Unit tests verify immediate owner-stream termination, independent guest grants, idle idempotence and rejection of browser/nonlocal/incorrect credentials. Active real-desktop sign-out still needs clean-host qualification.
 
+## Owner setup diagnostics - preview.8
+
+Bundled configuration, verification and migration scripts use Windows' process-only
+execution-policy option for application-hosted scripts. No machine/user policy is
+written; Group Policy retains precedence. The trusted command environment, host
+hash/publisher checks, private ACLs and existing-host ownership guards remain.
+Setup failures return an allowlisted reason code instead of discarding the useful
+error category. Raw PowerShell output, arguments and secrets are never returned
+or logged. The owner-only GET `/api/remote/setup-diagnostics` reports bounded enum
+values for effective and Group Policy script policies, language mode, host
+publisher validation and private-volume filesystem. It performs read-only checks;
+it does not change policies, host configuration or enrollment.
+
+Seventeen Node regressions include an actual Windows PowerShell Restricted-policy
+failure, successful read-only diagnostics and full host configuration with a
+restricted parent in the minimal supervised environment. The latter uses fresh
+NTFS data and a unique test registry namespace; no owner host is configured.
+Separate policy snapshots confirm machine/user settings are unchanged. Exact
+packaged acceptance passes owner-only diagnostics, idle startup, CSRF/PIN checks,
+no credentials created and mobile rendering. All 124 manifest payload paths match7.
+This reproduces a further compatibility gap, but does not establish the policy
+on either owner's PC. Host activation and the second-PC root cause remain pending
+until observed; diagnostics alone are not proof of desktop activation.
+
 # Managed delivery acceptance - preview.5
 
 The current component requires Workspace104. Re-enable tests check host startup before commit, failure preserving disabled state and PIN validation before activation. Eleven bridge/security/lifecycle unit tests and
