@@ -1,3 +1,4 @@
+const {updateDevice}=require('./lifecycle.cjs');
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),net=require('node:net'),os=require('node:os');
 const {WebSocketServer}=require('ws');
@@ -66,8 +67,7 @@ const server=http.createServer(async(req,res)=>{
   }
   if(route==='/api/remote/disconnect'&&req.method==='POST'){leases.delete(ctx.session);for(const x of sockets)if(x.ctx.session===ctx.session)x.ws.close(1000,'Disconnected');return json(res,200,{ok:true});}
   if(route==='/api/remote/device'&&req.method==='POST'){
-   const updated={...state};if(typeof b.name==='string'){if(!b.name.trim()||b.name.length>80)throw Error('Use 1–80 characters for the computer name');updated.name=b.name.trim();}
-   if(b.pin)updated.pin=pinHash(b.pin);if(typeof b.disabled==='boolean')updated.disabled=b.disabled;
+   const updated=updateDevice(state,b,()=>{if(!host)configureHost();});
    state=updated;save();if(b.pin||state.disabled){support.revokeNode(ctx.owner,'local');closeAll();}return json(res,200,{ok:true});
   }
   if(route==='/api/remote/support/create'&&req.method==='POST'){if(state.disabled)throw Error('Enable remote access first');const g=support.create(ctx.owner,'local');return json(res,200,{id:g.id,code:g.code,expires:g.expires});}

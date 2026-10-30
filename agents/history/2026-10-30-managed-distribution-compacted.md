@@ -26,3 +26,11 @@ updates/recovery, hashes runtime sidecars and validates a33-app inventory. Follo
 its docs/APP-LIFECYCLE.md. Suite fresh-install/upgrade and release/install are still
 separate pending gates at this source checkpoint. Second-PC install was explicitly
 left pending by user; browser control was unavailable. Keep Actions disabled.
+
+## Preview4 lifecycle correction
+
+Managed integration testing exposed the need to restart an idle host when access
+is re-enabled after a disabled restart. Device updates now validate first and
+ensure host startup before persisting enabled state; failure leaves state disabled.
+Three focused lifecycle tests join the six bridge/security checks. Remote4 is the
+intended component for Workspace104; Remote3 remains an immutable checkpoint.

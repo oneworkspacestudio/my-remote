@@ -2,7 +2,7 @@
 
 ## Managed installation
 
-Version 0.1.0-preview.3 requires One Workspace 0.3.0-preview.104 or later.
+Version 0.1.0-preview.4 requires One Workspace 0.3.0-preview.104 or later.
 Use Workspace setup or its protected updater. My Remote is a default Administration
 app, served at `/remote`, with MyAccounts owner sign-in and a shared picker entry.
 Do not run the earlier standalone installer or copy a local shortcut to deliver it.

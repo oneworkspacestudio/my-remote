@@ -1,6 +1,6 @@
-# Managed delivery acceptance - preview.3
+# Managed delivery acceptance - preview.4
 
-The current component requires Workspace104. Six bridge/security unit tests and
+The current component requires Workspace104. Re-enable tests check host startup before commit, failure preserving disabled state and PIN validation before activation. Nine bridge/security/lifecycle unit tests and
 the exact packaged executable's fresh NTFS idle-start test pass. Owner sign-in,
 CSRF denial, invalid-PIN rejection before activation, no host credentials created,
 phone rendering with no overflow/errors and child cleanup are checked by
