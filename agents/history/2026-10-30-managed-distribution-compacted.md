@@ -63,3 +63,16 @@ were retained. Desktop hosting stays inactive until owner setup. Second PC is
 pending by user instruction; no new actual host enrollment, physical-phone,
 reboot or expanded desktop capability acceptance is claimed. Lifecycle rules are
 centralized in the Workspace repository docs/APP-LIFECYCLE.md and104 release asset.
+
+## Preview6 host setup command environment
+
+Owner setup failed before host-secret creation. Reproduced with synthetic NTFS
+data and isolated test registry key using the exact minimal apphost.Service
+environment. Windows PowerShell reports CantActivateDocumentInPipeline for
+icacls.exe because PATHEXT is missing. Interactive-shell testing hid this.
+windows-command.cjs supplies standard executable extensions and system-only PATH
+to all PowerShell subprocesses, without importing the interactive PATH. Package
+script includes the new helper. Restricted-environment host configuration passes
+after the fix; all13 Node security/lifecycle tests pass (including real Windows PowerShell native-command regression). Diagnostics record exit
+status/code without raw secrets. Owner data/registry were not used as fixtures;
+no desktop/PIN was enrolled. Release6 and protected primary app update pending.

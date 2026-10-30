@@ -14,7 +14,7 @@ Copy-Item -LiteralPath (Join-Path $taskRoot 'compatibility.json') -Destination $
 Copy-Item -LiteralPath (Join-Path $taskRoot 'LICENSE'),(Join-Path $taskRoot 'NOTICE') -Destination $taskOut
 Copy-Item -LiteralPath (Join-Path $taskRoot 'docs/third-party-notices.md') -Destination (Join-Path $taskOut 'THIRD-PARTY-LICENSES.txt')
 Copy-Item -LiteralPath $NodeExe -Destination (Join-Path $taskOut 'remote-runtime/node.exe')
-foreach($taskFile in @('local-server.cjs','rfb.cjs','security.cjs','lifecycle.cjs')){Copy-Item -LiteralPath (Join-Path $taskRoot ('engine/'+$taskFile)) -Destination (Join-Path $taskOut 'remote-runtime/engine')}
+foreach($taskFile in @('local-server.cjs','rfb.cjs','security.cjs','lifecycle.cjs','windows-command.cjs')){Copy-Item -LiteralPath (Join-Path $taskRoot ('engine/'+$taskFile)) -Destination (Join-Path $taskOut 'remote-runtime/engine')}
 foreach($taskScript in @('configure-host.ps1','verify-host.ps1','create-host-secret.cjs','migrate-launchers.ps1')){Copy-Item -LiteralPath (Join-Path $PSScriptRoot $taskScript) -Destination (Join-Path $taskOut 'remote-runtime/scripts')}
 Copy-Item -LiteralPath (Join-Path $taskRoot 'node_modules/ws') -Destination (Join-Path $taskOut 'remote-runtime/node_modules') -Recurse
 foreach($taskFile in @('tvnserver.exe','hookldr.exe','sas.dll','screenhooks32.dll','screenhooks64.dll','LICENSE.txt')){Copy-Item -LiteralPath (Join-Path $HostDirectory $taskFile) -Destination (Join-Path $taskOut 'remote-runtime/host')}
